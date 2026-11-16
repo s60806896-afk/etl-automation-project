@@ -1,0 +1,29 @@
+name: Automated ETL Pipeline
+
+# Atur Jadwal Otomatis (Cron Job)
+on:
+  schedule:
+    # Berjalan otomatis setiap hari pukul 02:00 Pagi UTC (Waktu Server)
+    - cron: '0 2 * * *'
+  # Memungkinkan juga dijalankan secara manual lewat tombol di web GitHub
+  workflow_dispatch:
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies (Pandas)
+        run: |
+          pip install pandas
+
+      - name: Run ETL Script
+        run: |
+          python etl_script.py
